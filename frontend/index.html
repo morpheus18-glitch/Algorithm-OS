@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Algorithm Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="libs/d3.min.js"></script>
+    <script src="libs/three.min.js"></script>
+</head>
+<body>
+    <h1>Algorithm Dashboard</h1>
+    <div id="controls">
+        <label for="algorithm">Algorithm:</label>
+        <select id="algorithm">
+            <option value="tsp">TSP</option>
+            <option value="dijkstra">Dijkstra</option>
+        </select>
+        <input type="file" id="dataset" accept="application/json">
+        <button id="run">Run</button>
+        <button id="export">Export CSV</button>
+    </div>
+    <div id="visualization"></div>
+    <div id="results"></div>
+    <script src="js/main.js"></script>
+</body>
+</html>
