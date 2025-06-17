@@ -11,16 +11,25 @@
     <h1>Algorithm Dashboard</h1>
     <div id="controls">
         <label for="algorithm">Algorithm:</label>
-        <select id="algorithm">
-            <option value="tsp">TSP</option>
-            <option value="dijkstra">Dijkstra</option>
-        </select>
+        <select id="algorithm"></select>
         <input type="file" id="dataset" accept="application/json">
+        <div id="dropzone">Drag & Drop JSON Here</div>
         <button id="run">Run</button>
+        <button id="bench">Benchmark</button>
         <button id="export">Export CSV</button>
+        <button id="toggle-theme">Dark</button>
     </div>
-    <div id="visualization"></div>
-    <div id="results"></div>
+    <div id="panels">
+        <div id="visualization"></div>
+        <div id="results"></div>
+        <div id="benchmark"></div>
+        <div id="search-panel">
+            <input type="text" id="search-box" placeholder="Search text">
+            <button id="search-btn">Search</button>
+            <div id="search-results"></div>
+        </div>
+        <div id="log"></div>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>

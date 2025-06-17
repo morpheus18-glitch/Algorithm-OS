@@ -1,6 +1,8 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background: var(--bg);
+    color: var(--fg);
 }
 #controls {
     margin-bottom: 20px;
@@ -8,8 +10,29 @@ body {
 #visualization {
     border: 1px solid #ccc;
     width: 800px;
-    height: 600px;
+    height: 400px;
+    margin-bottom: 10px;
 }
-#results {
-    margin-top: 20px;
+#results, #benchmark, #search-results, #log {
+    margin-top: 10px;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+#dropzone {
+    border: 2px dashed #888;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    cursor: pointer;
+}
+:root {
+    --bg: #ffffff;
+    --fg: #000000;
+}
+.dark {
+    --bg: #1e1e1e;
+    --fg: #ffffff;
 }

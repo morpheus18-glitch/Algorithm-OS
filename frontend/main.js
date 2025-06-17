@@ -1,11 +1,20 @@
 const algorithmSelect = document.getElementById('algorithm');
 const datasetInput = document.getElementById('dataset');
+const dropzone = document.getElementById('dropzone');
 const runBtn = document.getElementById('run');
+const benchBtn = document.getElementById('bench');
 const exportBtn = document.getElementById('export');
+const toggleTheme = document.getElementById('toggle-theme');
+const searchBox = document.getElementById('search-box');
+const searchBtn = document.getElementById('search-btn');
 const viz = d3.select('#visualization');
 const resultsDiv = document.getElementById('results');
+const benchmarkDiv = document.getElementById('benchmark');
+const logDiv = document.getElementById('log');
+const searchResults = document.getElementById('search-results');
 let currentData = null;
 let lastResult = null;
+let algorithms = [];
 
 function readFile(file) {
   return new Promise((resolve, reject) => {
@@ -14,6 +23,21 @@ function readFile(file) {
     reader.onerror = reject;
     reader.readAsText(file);
   });
+}
+
+async function initAlgorithms() {
+  const res = await fetch('http://localhost:8000/api/algorithms');
+  const data = await res.json();
+  algorithms = data.algorithms;
+  algorithmSelect.innerHTML = algorithms.map(a => `<option value="${a}">${a}</option>`).join('');
+}
+
+function initLogs() {
+  const es = new EventSource('http://localhost:8000/api/logs');
+  es.onmessage = e => {
+    logDiv.textContent += e.data + '\n';
+    logDiv.scrollTop = logDiv.scrollHeight;
+  };
 }
 
 async function runAlgorithm() {
@@ -34,6 +58,20 @@ async function runAlgorithm() {
   const result = await res.json();
   lastResult = result;
   showResult(algorithm, result);
+}
+
+async function runBenchmark() {
+  if (!currentData) {
+    alert('Please upload a dataset');
+    return;
+  }
+  const res = await fetch('http://localhost:8000/api/benchmark', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ algorithms, data: currentData })
+  });
+  const result = await res.json();
+  benchmarkDiv.textContent = JSON.stringify(result.results, null, 2);
 }
 
 function showResult(algorithm, result) {
@@ -112,11 +150,37 @@ function exportCSV() {
   URL.revokeObjectURL(a.href);
 }
 
+async function search() {
+  const q = searchBox.value;
+  if (!q) return;
+  const res = await fetch(`http://localhost:8000/api/search?q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+  searchResults.textContent = JSON.stringify(data.results, null, 2);
+}
+
 datasetInput.addEventListener('change', async e => {
   const file = e.target.files[0];
   if (file) {
     currentData = await readFile(file);
   }
 });
+dropzone.addEventListener('dragover', e => {
+  e.preventDefault();
+});
+dropzone.addEventListener('drop', async e => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    currentData = await readFile(file);
+  }
+});
 runBtn.addEventListener('click', runAlgorithm);
+benchBtn.addEventListener('click', runBenchmark);
 exportBtn.addEventListener('click', exportCSV);
+searchBtn.addEventListener('click', search);
+toggleTheme.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+initAlgorithms();
+initLogs();
