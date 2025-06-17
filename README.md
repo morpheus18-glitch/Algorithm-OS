@@ -1,11 +1,15 @@
 # Algorithm Dashboard
 
-This project provides a lightweight dashboard for running and visualizing algorithms such as the Travelling Salesman Problem (TSP) and Dijkstra's shortest path. The frontend is written in vanilla JavaScript with D3.js for visualization, while the backend uses FastAPI.
+This project provides a lightweight dashboard for running and visualizing algorithms. The frontend uses vanilla JavaScript with D3.js and Three.js while the backend is built with FastAPI. Results are stored in SQLite and streamed to the browser via Server‑Sent Events.
 
 ## Features
 
-- Upload datasets in JSON format and run algorithms through the dashboard
+- Upload datasets by selecting or drag‑dropping JSON files
 - Real‑time visualization of paths and graphs
+- Live logs streamed from the backend
+- Benchmark multiple algorithms on the same dataset
+- Persistent results stored in SQLite with replay capability
+- Search UI powered by a FAISS index built from scraped documents
 - Easy to extend: drop new Python scripts into `backend/algorithms`
 - Optional Docker Compose setup for running frontend and backend
 - Export results as CSV
@@ -36,6 +40,15 @@ frontend/             Static files served to the browser
    ```
 4. Open `http://localhost:8080` in your browser and load one of the JSON files in `frontend/sample_data`.
 
+### Search Index
+
+To build the search index used in the nearest neighbour demo:
+
+```bash
+python -m backend.ml.pipeline scrape urls.txt scraped.json
+python -m backend.ml.pipeline index scraped.json
+```
+
 ## Docker Compose
 
 To run both services with Docker:
@@ -51,6 +64,16 @@ The frontend will be available on port `8080` and the API on port `8000`.
 1. Create a new file in `backend/algorithms` with a `run(data: dict) -> dict` function.
 2. The function receives the JSON payload from the frontend and should return a dictionary with any fields required for visualization.
 3. The algorithm can then be selected from the dropdown on the dashboard by matching the filename (without extension).
+
+Example template in `backend/algorithms/example_tsp.py`:
+
+```python
+def run(data: dict) -> dict:
+    # implement algorithm
+    return {"path": [], "elapsed": 0.0}
+```
+
+To add a new D3 visualization see `frontend/main.js` for existing templates.
 
 ## License
 
