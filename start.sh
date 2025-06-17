@@ -16,7 +16,7 @@ cleanup() {
 
 trap cleanup INT TERM
 
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
+python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
 BACKEND_PID=$!
 
 (cd frontend && python3 -m http.server 8080) &
