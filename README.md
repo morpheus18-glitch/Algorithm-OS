@@ -21,7 +21,29 @@ frontend/             Static files served to the browser
   sample_data/       Example datasets for testing
 ```
 
+## Hosting from a Git Repository
+
+Clone the repository and run the startup script to host the dashboard locally:
+
+```bash
+git clone <repo-url> algorithm-dashboard
+cd algorithm-dashboard
+./startup.sh
+```
+
+This starts the backend on port `8000` and the frontend on `8080` so you can access the dashboard at `http://localhost:8080`.
+
 ## Running Locally
+
+The quickest way to launch both services is with the provided `startup.sh` script. After cloning the repository, simply run:
+
+```bash
+./startup.sh
+```
+
+The script installs any missing Python dependencies, starts the API server on port `8000`, and serves the frontend on port `8080`. Open `http://localhost:8080` in your browser and load one of the JSON files in `frontend/sample_data`.
+
+If you prefer to start the components manually:
 
 1. Install Python dependencies:
    ```bash
@@ -36,7 +58,6 @@ frontend/             Static files served to the browser
    cd frontend
    python3 -m http.server 8080
    ```
-4. Open `http://localhost:8080` in your browser and load one of the JSON files in `frontend/sample_data`.
 
 ## Docker Compose
 
