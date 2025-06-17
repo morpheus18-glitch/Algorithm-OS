@@ -32,15 +32,17 @@ cd Algorithm-OS
 
 ## Running Locally
 
-1. Install Python dependencies:
+1. Copy `.env.example` to `.env` and adjust the database settings if needed.
+2. Install Python dependencies (requires PostgreSQL client libraries):
    ```bash
    pip install -r backend/requirements.txt
    ```
-2. Start both backend and frontend together:
+3. Ensure PostgreSQL is running and accessible using the credentials in `.env`.
+4. Start both backend and frontend together:
    ```bash
    ./start.sh
    ```
-3. Open `http://localhost:8080` in your browser and load one of the JSON files in `frontend/sample_data`.
+5. Open `http://localhost:8080` in your browser and load one of the JSON files in `frontend/sample_data`.
 
 ## Docker Compose
 
@@ -51,6 +53,7 @@ docker compose up --build
 ```
 
 The frontend will be available on port `8080` and the API on port `8000`.
+PostgreSQL will listen on port `5432` with credentials defined in `.env`.
 
 ## Adding New Algorithms
 

@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+set -a
+[ -f .env ] && . .env
+set +a
 
 BACKEND_PID=0
 FRONTEND_PID=0
