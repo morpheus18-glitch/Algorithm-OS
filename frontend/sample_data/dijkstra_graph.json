@@ -1,0 +1,16 @@
+{
+  "nodes": [
+    {"x": 10, "y": 20},
+    {"x": 40, "y": 30},
+    {"x": 60, "y": 50},
+    {"x": 80, "y": 80}
+  ],
+  "edges": [
+    {"source": 0, "target": 1, "weight": 1},
+    {"source": 1, "target": 2, "weight": 2},
+    {"source": 2, "target": 3, "weight": 1},
+    {"source": 0, "target": 3, "weight": 5}
+  ],
+  "start": 0,
+  "goal": 3
+}
